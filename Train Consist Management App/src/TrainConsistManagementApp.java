@@ -1,44 +1,51 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 class Bogie {
     String name;
     int capacity;
 
-    // Constructor
     public Bogie(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;
     }
 
-    // Overriding toString for easy printing
     @Override
     public String toString() {
         return String.format("%-15s : %d seats", name, capacity);
     }
 }
 
-public class TrainConsistManagementApp {
+public class TrainConsistApp {
     public static void main(String[] args) {
-        // 1. Create a List to store Bogie objects
-        List<Bogie> bogies = new ArrayList<>();
+        // 1. Initialize the Bogie List (As in UC7)
+        List<Bogie> allBogies = new ArrayList<>();
+        allBogies.add(new Bogie("Sleeper", 72));
+        allBogies.add(new Bogie("AC Chair", 56));
+        allBogies.add(new Bogie("First Class", 24));
+        allBogies.add(new Bogie("General", 90));
+        allBogies.add(new Bogie("Deccan Queen", 78));
 
-        // 2. Add different types of bogies
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 56));
-        bogies.add(new Bogie("First Class", 24));
-        bogies.add(new Bogie("General", 90));
+        System.out.println("All Available Bogies:");
+        allBogies.forEach(System.out::println);
 
-        System.out.println("--- Before Sorting ---");
-        bogies.forEach(System.out::println);
+        // 2. Apply Stream Filtering Logic
+        // Business Rule: Select only High-Capacity bogies (Capacity > 60)
+        int threshold = 60;
 
-        // 3. Apply Comparator to sort by capacity (Ascending)
-        // For Descending, use: Comparator.comparingInt((Bogie b) -> b.capacity).reversed()
-        bogies.sort(Comparator.comparingInt(b -> b.capacity));
+        List<Bogie> highCapacityBogies = allBogies.stream()
+                .filter(b -> b.capacity > threshold) // Filter condition
+                .collect(Collectors.toList());        // Gather results into a new list
 
-        System.out.println("\n--- Sorted by Capacity (Ascending) ---");
-        // 4. Display sorted results
-        for (Bogie b : bogies) {
-            System.out.println(b);
+        // 3. Display Results
+        System.out.println("\n--- High Capacity Bogies (> " + threshold + " seats) ---");
+        if (highCapacityBogies.isEmpty()) {
+            System.out.println("No bogies match the criteria.");
+        } else {
+            highCapacityBogies.forEach(System.out::println);
         }
+
+        // 4. Verify Original Integrity
+        System.out.println("\n(Verification) Original list size remains: " + allBogies.size());
     }
 }
