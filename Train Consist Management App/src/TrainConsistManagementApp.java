@@ -16,7 +16,7 @@ class Bogie {
     }
 }
 
-public class TrainConsistApp {
+public class TrainConsistManagementApp {
     public static void main(String[] args) {
         // 1. Initialize the Bogie List (As in UC7)
         List<Bogie> allBogies = new ArrayList<>();
