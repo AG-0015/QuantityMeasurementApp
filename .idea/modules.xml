@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/B2P22_RA2412704010015.iml" filepath="$PROJECT_DIR$/.idea/B2P22_RA2412704010015.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BookMyStayApp/BookMyStayApp.iml" filepath="$PROJECT_DIR$/BookMyStayApp/BookMyStayApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Train Consist Management App/Train Consist Management App.iml" filepath="$PROJECT_DIR$/Train Consist Management App/Train Consist Management App.iml" />
+      <module fileurl="file://$PROJECT_DIR$/palindrome_checker_app/palindrome_checker_app.iml" filepath="$PROJECT_DIR$/palindrome_checker_app/palindrome_checker_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/week1and2/week1and2.iml" filepath="$PROJECT_DIR$/week1and2/week1and2.iml" />
+    </modules>
+  </component>
+</project>
