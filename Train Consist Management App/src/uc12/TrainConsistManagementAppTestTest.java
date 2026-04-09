@@ -1,20 +1,25 @@
-package uc12;
+package uc13;
 
-import org.junit.jupiter.api.Test;
 import java.util.*;
-import static org.junit.jupiter.api.Assertions.*;
 
-class UC12Test {
+class CapacityUnit {
+    int value;
 
-    @Test
-    void testSafety() {
-        List<uc12.CargoUnit> list = Arrays.asList(
-                new uc12.CargoUnit("Cylindrical", "Petroleum")
-        );
+    CapacityUnit(int v) { value = v; }
 
-        boolean safe = list.stream()
-                .allMatch(b -> !b.type.equals("Cylindrical") || b.cargo.equals("Petroleum"));
+    int getValue() { return value; }
+}
 
-        assertTrue(safe);
+public class TrainConsistManagementAppTestTest {
+    public static void main(String[] args) {
+
+        List<CapacityUnit> list = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) list.add(new CapacityUnit(i));
+
+        long start = System.nanoTime();
+        list.stream().filter(b -> b.getValue() > 60).toList();
+        long end = System.nanoTime();
+
+        System.out.println("Time: " + (end - start));
     }
 }
