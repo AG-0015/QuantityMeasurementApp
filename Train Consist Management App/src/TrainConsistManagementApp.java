@@ -1,51 +1,56 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
+// 🔹 Bogie Class
 class Bogie {
-    String name;
-    int capacity;
+    private String type;
+    private int capacity;
 
-    public Bogie(String name, int capacity) {
-        this.name = name;
+    public Bogie(String type, int capacity) {
+        this.type = type;
         this.capacity = capacity;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 
     @Override
     public String toString() {
-        return String.format("%-15s : %d seats", name, capacity);
+        return type + " | Capacity: " + capacity;
     }
 }
 
+// 🔹 Main Application
 public class TrainConsistManagementApp {
+
     public static void main(String[] args) {
-        // 1. Initialize the Bogie List (As in UC7)
-        List<Bogie> allBogies = new ArrayList<>();
-        allBogies.add(new Bogie("Sleeper", 72));
-        allBogies.add(new Bogie("AC Chair", 56));
-        allBogies.add(new Bogie("First Class", 24));
-        allBogies.add(new Bogie("General", 90));
-        allBogies.add(new Bogie("Deccan Queen", 78));
 
-        System.out.println("All Available Bogies:");
-        allBogies.forEach(System.out::println);
+        // 🔸 Step 1: Create list of bogies
+        List<Bogie> bogies = new ArrayList<>();
 
-        // 2. Apply Stream Filtering Logic
-        // Business Rule: Select only High-Capacity bogies (Capacity > 60)
-        int threshold = 60;
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("AC Chair", 60));
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("First Class", 40));
+        bogies.add(new Bogie("AC Chair", 60));
 
-        List<Bogie> highCapacityBogies = allBogies.stream()
-                .filter(b -> b.capacity > threshold) // Filter condition
-                .collect(Collectors.toList());        // Gather results into a new list
+        // 🔸 Step 2: Group bogies by type
+        Map<String, List<Bogie>> groupedBogies =
+                bogies.stream()
+                        .collect(Collectors.groupingBy(Bogie::getType));
 
-        // 3. Display Results
-        System.out.println("\n--- High Capacity Bogies (> " + threshold + " seats) ---");
-        if (highCapacityBogies.isEmpty()) {
-            System.out.println("No bogies match the criteria.");
-        } else {
-            highCapacityBogies.forEach(System.out::println);
-        }
+        // 🔸 Step 3: Display grouped result
+        System.out.println("=== Grouped Bogies by Type ===\n");
 
-        // 4. Verify Original Integrity
-        System.out.println("\n(Verification) Original list size remains: " + allBogies.size());
+        groupedBogies.forEach((type, list) -> {
+            System.out.println("Bogie Type: " + type);
+            list.forEach(b -> System.out.println("  " + b));
+            System.out.println();
+        });
     }
 }
