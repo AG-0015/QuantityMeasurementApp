@@ -1,32 +1,14 @@
-import java.util.*;
-import java.util.stream.Collectors;
+package uc11;
 
-class Bogie {
-    String type;
-    int capacity;
-
-    Bogie(String type, int capacity) {
-        this.type = type;
-        this.capacity = capacity;
-    }
-
-    public String getType() {
-        return type;
-    }
-}
+import java.util.regex.*;
 
 public class TrainConsistManagementApp {
     public static void main(String[] args) {
 
-        List<Bogie> list = Arrays.asList(
-                new Bogie("Sleeper", 72),
-                new Bogie("Sleeper", 80),
-                new Bogie("AC Chair", 60)
-        );
+        String train = "TRN-1234";
 
-        Map<String, List<Bogie>> grouped =
-                list.stream().collect(Collectors.groupingBy(Bogie::getType));
+        boolean valid = Pattern.matches("TRN-\\d{4}", train);
 
-        System.out.println(grouped);
+        System.out.println("Valid: " + valid);
     }
 }
