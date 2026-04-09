@@ -1,29 +1,32 @@
-class InvalidCapacityException extends Exception {
-    public InvalidCapacityException(String msg) {
-        super(msg);
-    }
-}
+import java.util.*;
+import java.util.stream.Collectors;
 
-class PassengerBogie {
+class Bogie {
     String type;
     int capacity;
 
-    PassengerBogie(String type, int capacity) throws InvalidCapacityException {
-        if (capacity <= 0) {
-            throw new InvalidCapacityException("Capacity must be greater than zero");
-        }
+    Bogie(String type, int capacity) {
         this.type = type;
         this.capacity = capacity;
+    }
+
+    public String getType() {
+        return type;
     }
 }
 
 public class TrainConsistManagementApp {
     public static void main(String[] args) {
 
-        try {
-            PassengerBogie b = new PassengerBogie("Sleeper", -10);
-        } catch (InvalidCapacityException e) {
-            System.out.println(e.getMessage());
-        }
+        List<Bogie> list = Arrays.asList(
+                new Bogie("Sleeper", 72),
+                new Bogie("Sleeper", 80),
+                new Bogie("AC Chair", 60)
+        );
+
+        Map<String, List<Bogie>> grouped =
+                list.stream().collect(Collectors.groupingBy(Bogie::getType));
+
+        System.out.println(grouped);
     }
 }
