@@ -1,30 +1,47 @@
 import java.util.*;
+import java.util.stream.*;
 
-class GoodsBogie {
-    String type;
-    String cargo;
+class Bogie {
+    int capacity;
 
-    GoodsBogie(String type, String cargo) {
-        this.type = type;
-        this.cargo = cargo;
+    Bogie(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 }
 
 public class TrainConsistManagementApp {
     public static void main(String[] args) {
 
-        List<GoodsBogie> bogies = Arrays.asList(
-                new GoodsBogie("Cylindrical", "Petroleum"),
-                new GoodsBogie("Rectangular", "Coal"),
-                new GoodsBogie("Cylindrical", "Petroleum")
-        );
+        List<Bogie> bogies = new ArrayList<>();
 
-        boolean isSafe = bogies.stream()
-                .allMatch(b ->
-                        !b.type.equals("Cylindrical") ||
-                                b.cargo.equals("Petroleum")
-                );
+        for (int i = 0; i < 100000; i++) {
+            bogies.add(new Bogie(i % 100));
+        }
 
-        System.out.println("Train Safety Status: " + isSafe);
+        long start1 = System.nanoTime();
+
+        List<Bogie> result1 = new ArrayList<>();
+        for (Bogie b : bogies) {
+            if (b.getCapacity() > 60) {
+                result1.add(b);
+            }
+        }
+
+        long end1 = System.nanoTime();
+
+        long start2 = System.nanoTime();
+
+        List<Bogie> result2 = bogies.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
+
+        long end2 = System.nanoTime();
+
+        System.out.println("Loop Time: " + (end1 - start1));
+        System.out.println("Stream Time: " + (end2 - start2));
     }
 }
