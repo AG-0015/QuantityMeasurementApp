@@ -1,17 +1,28 @@
-package uc11;
+package uc12;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.*;
 
-class UC11Test {
+class CargoUnit {
+    String type;
+    String cargo;
 
-    @Test
-    void testValid() {
-        assertTrue("TRN-1234".matches("TRN-\\d{4}"));
+    CargoUnit(String t, String c) {
+        type = t;
+        cargo = c;
     }
+}
 
-    @Test
-    void testInvalid() {
-        assertFalse("TRN123".matches("TRN-\\d{4}"));
+public class TrainConsistManagementAppTest {
+    public static void main(String[] args) {
+
+        List<CargoUnit> list = Arrays.asList(
+                new CargoUnit("Cylindrical", "Petroleum"),
+                new CargoUnit("Rectangular", "Coal")
+        );
+
+        boolean safe = list.stream()
+                .allMatch(b -> !b.type.equals("Cylindrical") || b.cargo.equals("Petroleum"));
+
+        System.out.println("Safe: " + safe);
     }
 }
