@@ -1,18 +1,30 @@
-import java.util.regex.*;
+import java.util.*;
+
+class GoodsBogie {
+    String type;
+    String cargo;
+
+    GoodsBogie(String type, String cargo) {
+        this.type = type;
+        this.cargo = cargo;
+    }
+}
 
 public class TrainConsistManagementApp {
     public static void main(String[] args) {
 
-        String trainId = "TRN-1234";
-        String cargoCode = "PET-AB";
+        List<GoodsBogie> bogies = Arrays.asList(
+                new GoodsBogie("Cylindrical", "Petroleum"),
+                new GoodsBogie("Rectangular", "Coal"),
+                new GoodsBogie("Cylindrical", "Petroleum")
+        );
 
-        Pattern trainPattern = Pattern.compile("TRN-\\d{4}");
-        Pattern cargoPattern = Pattern.compile("PET-[A-Z]{2}");
+        boolean isSafe = bogies.stream()
+                .allMatch(b ->
+                        !b.type.equals("Cylindrical") ||
+                                b.cargo.equals("Petroleum")
+                );
 
-        boolean isTrainValid = trainPattern.matcher(trainId).matches();
-        boolean isCargoValid = cargoPattern.matcher(cargoCode).matches();
-
-        System.out.println("Train ID Valid: " + isTrainValid);
-        System.out.println("Cargo Code Valid: " + isCargoValid);
+        System.out.println("Train Safety Status: " + isSafe);
     }
 }
