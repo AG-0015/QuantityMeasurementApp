@@ -2,39 +2,41 @@ public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("=== UC7: ADDITION WITH TARGET UNIT ===");
+        System.out.println("=== UC8 LENGTH MEASUREMENT APP ===");
 
-        QuantityLength result1 = add(new QuantityLength(1.0, LengthUnit.FEET),
-                new QuantityLength(12.0, LengthUnit.INCHES),
-                LengthUnit.FEET);
-        System.out.println("1 FEET + 12 INCHES in FEET = " + result1);
+        QuantityLength feet = new QuantityLength(1.0, LengthUnit.FEET);
+        QuantityLength inches = new QuantityLength(12.0, LengthUnit.INCHES);
+        QuantityLength yards = new QuantityLength(3.0, LengthUnit.FEET);
 
-        QuantityLength result2 = add(new QuantityLength(1.0, LengthUnit.FEET),
-                new QuantityLength(12.0, LengthUnit.INCHES),
-                LengthUnit.INCHES);
-        System.out.println("1 FEET + 12 INCHES in INCHES = " + result2);
+        // Equality
+        System.out.println("\n--- EQUALITY ---");
+        System.out.println("1 FEET == 12 INCHES : " + feet.equals(inches));
 
-        QuantityLength result3 = add(new QuantityLength(1.0, LengthUnit.FEET),
-                new QuantityLength(12.0, LengthUnit.INCHES),
-                LengthUnit.YARDS);
-        System.out.println("1 FEET + 12 INCHES in YARDS = " + result3);
-    }
+        // Conversion
+        System.out.println("\n--- CONVERSION ---");
+        System.out.println("1 FEET to INCHES = " +
+                feet.convertTo(LengthUnit.INCHES).getValue());
 
-    public static QuantityLength add(QuantityLength l1,
-                                     QuantityLength l2,
-                                     LengthUnit targetUnit) {
+        System.out.println("1 FEET to CENTIMETERS = " +
+                feet.convertTo(LengthUnit.CENTIMETERS).getValue());
 
-        if (l1 == null || l2 == null || targetUnit == null) {
-            throw new IllegalArgumentException("Invalid input");
-        }
+        // Addition (default unit)
+        System.out.println("\n--- ADDITION (DEFAULT UNIT) ---");
+        QuantityLength sum1 = feet.add(inches);
+        System.out.println("1 FEET + 12 INCHES = " +
+                sum1.getValue() + " " + sum1.getUnit());
 
-        double value1 = l1.toBaseUnit(); // FEET
-        double value2 = l2.toBaseUnit();
+        // Addition (explicit target unit)
+        System.out.println("\n--- ADDITION (TARGET UNIT) ---");
+        QuantityLength sum2 = feet.add(inches, LengthUnit.YARDS);
+        System.out.println("Result in YARDS = " + sum2.getValue());
 
-        double sum = value1 + value2;
+        // Extra case
+        System.out.println("\n--- EXTRA ---");
+        QuantityLength sum3 = yards.add(feet, LengthUnit.FEET);
+        System.out.println("3 FEET + 1 FEET = " +
+                sum3.getValue() + " FEET");
 
-        double resultValue = sum / targetUnit.getConversionFactor();
-
-        return new QuantityLength(resultValue, targetUnit);
+        System.out.println("\n=== END UC8 MAIN ===");
     }
 }
