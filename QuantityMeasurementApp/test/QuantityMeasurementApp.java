@@ -1,60 +1,45 @@
-public class QuantityMeasurementApp {
-
-    public enum LengthUnit {
-        FEET(1.0),
-        INCH(1.0 / 12.0),
-        YARD(3.0),
-        CENTIMETER(0.393701 / 12.0);
-
-        private final double toFeetFactor;
-
-        LengthUnit(double toFeetFactor) {
-            this.toFeetFactor = toFeetFactor;
-        }
-
-        public double toFeet(double value) {
-            return value * toFeetFactor;
-        }
-    }
-
-    public static class Quantity {
-        private final double value;
-        private final LengthUnit unit;
-
-        public Quantity(double value, LengthUnit unit) {
-            if (unit == null) {
-                throw new IllegalArgumentException("Unit cannot be null");
-            }
-            this.value = value;
-            this.unit = unit;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-
-            if (this == obj) return true;
-
-            if (obj == null || this.getClass() != obj.getClass()) return false;
-
-            Quantity other = (Quantity) obj;
-
-            double thisFeet = this.unit.toFeet(this.value);
-            double otherFeet = other.unit.toFeet(other.value);
-
-            return Double.compare(thisFeet, otherFeet) == 0;
-        }
-    }
+public class QuantityMeasurementAppTest {
 
     public static void main(String[] args) {
 
-        Quantity q1 = new Quantity(1.0, LengthUnit.YARD);
-        Quantity q2 = new Quantity(3.0, LengthUnit.FEET);
+        System.out.println("=== TESTS START ===");
 
-        System.out.println("1 Yard == 3 Feet: " + q1.equals(q2));
+        testFeetToInches();
+        testYardsToFeet();
+        testInchesToYards();
+        testCentimetersToInches();
+        testZeroConversion();
 
-        Quantity q3 = new Quantity(1.0, LengthUnit.CENTIMETER);
-        Quantity q4 = new Quantity(0.393701, LengthUnit.INCH);
+        System.out.println("=== TESTS FINISHED ===");
+    }
 
-        System.out.println("1 cm == 0.393701 inch: " + q3.equals(q4));
+    static void testFeetToInches() {
+        double result = QuantityMeasurementApp.convert(1.0, LengthUnit.FEET, LengthUnit.INCHES);
+        assert result == 12.0 : "Feet to Inches failed";
+        System.out.println("testFeetToInches PASSED");
+    }
+
+    static void testYardsToFeet() {
+        double result = QuantityMeasurementApp.convert(3.0, LengthUnit.YARDS, LengthUnit.FEET);
+        assert result == 9.0 : "Yards to Feet failed";
+        System.out.println("testYardsToFeet PASSED");
+    }
+
+    static void testInchesToYards() {
+        double result = QuantityMeasurementApp.convert(36.0, LengthUnit.INCHES, LengthUnit.YARDS);
+        assert result == 1.0 : "Inches to Yards failed";
+        System.out.println("testInchesToYards PASSED");
+    }
+
+    static void testCentimetersToInches() {
+        double result = QuantityMeasurementApp.convert(1.0, LengthUnit.CENTIMETERS, LengthUnit.INCHES);
+        assert Math.abs(result - 0.3937) < 0.01 : "CM to Inches failed";
+        System.out.println("testCentimetersToInches PASSED");
+    }
+
+    static void testZeroConversion() {
+        double result = QuantityMeasurementApp.convert(0.0, LengthUnit.FEET, LengthUnit.INCHES);
+        assert result == 0.0 : "Zero conversion failed";
+        System.out.println("testZeroConversion PASSED");
     }
 }
