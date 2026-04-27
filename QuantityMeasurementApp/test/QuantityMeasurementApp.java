@@ -2,41 +2,35 @@ public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("=== UC8 LENGTH MEASUREMENT APP ===");
+        System.out.println("=== UC9 WEIGHT MEASUREMENT APP ===");
 
-        QuantityLength feet = new QuantityLength(1.0, LengthUnit.FEET);
-        QuantityLength inches = new QuantityLength(12.0, LengthUnit.INCHES);
-        QuantityLength yards = new QuantityLength(3.0, LengthUnit.FEET);
+        QuantityWeight kg = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
+        QuantityWeight gram = new QuantityWeight(1000.0, WeightUnit.GRAM);
+        QuantityWeight pound = new QuantityWeight(2.20462, WeightUnit.POUND);
 
-        // Equality
+        // 1. Equality
         System.out.println("\n--- EQUALITY ---");
-        System.out.println("1 FEET == 12 INCHES : " + feet.equals(inches));
+        System.out.println("1 KG == 1000 GRAM : " + kg.equals(gram));
+        System.out.println("1 KG == 2.20462 POUND : " + kg.equals(pound));
 
-        // Conversion
+        // 2. Conversion
         System.out.println("\n--- CONVERSION ---");
-        System.out.println("1 FEET to INCHES = " +
-                feet.convertTo(LengthUnit.INCHES).getValue());
+        System.out.println("1 KG to GRAM = " + kg.convertTo(WeightUnit.GRAM).getValue());
+        System.out.println("1 KG to POUND = " + kg.convertTo(WeightUnit.POUND).getValue());
 
-        System.out.println("1 FEET to CENTIMETERS = " +
-                feet.convertTo(LengthUnit.CENTIMETERS).getValue());
-
-        // Addition (default unit)
+        // 3. Addition (default unit)
         System.out.println("\n--- ADDITION (DEFAULT UNIT) ---");
-        QuantityLength sum1 = feet.add(inches);
-        System.out.println("1 FEET + 12 INCHES = " +
-                sum1.getValue() + " " + sum1.getUnit());
+        QuantityWeight sum1 = kg.add(new QuantityWeight(500.0, WeightUnit.GRAM));
+        System.out.println("1 KG + 500 GRAM = " + sum1.getValue() + " " + sum1.getUnit());
 
-        // Addition (explicit target unit)
+        // 4. Addition (explicit target unit)
         System.out.println("\n--- ADDITION (TARGET UNIT) ---");
-        QuantityLength sum2 = feet.add(inches, LengthUnit.YARDS);
-        System.out.println("Result in YARDS = " + sum2.getValue());
+        QuantityWeight sum2 = kg.add(
+                new QuantityWeight(500.0, WeightUnit.GRAM),
+                WeightUnit.GRAM
+        );
+        System.out.println("Result in GRAM = " + sum2.getValue());
 
-        // Extra case
-        System.out.println("\n--- EXTRA ---");
-        QuantityLength sum3 = yards.add(feet, LengthUnit.FEET);
-        System.out.println("3 FEET + 1 FEET = " +
-                sum3.getValue() + " FEET");
-
-        System.out.println("\n=== END UC8 MAIN ===");
+        System.out.println("\n=== END UC9 MAIN ===");
     }
 }

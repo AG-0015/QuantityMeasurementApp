@@ -1,21 +1,22 @@
-public class QuantityMeasurementAppTest {
+public class QuantityWeightTest {
 
     public static void main(String[] args) {
 
-        System.out.println("=== TEST START ===");
+        System.out.println("=== UC9 TEST START ===");
 
         testEquality();
         testConversion();
         testAddition();
+        testAdditionWithTargetUnit();
 
-        System.out.println("=== TEST PASS ===");
+        System.out.println("=== ALL UC9 TESTS PASSED ===");
     }
 
     static void testEquality() {
-        QuantityLength a = new QuantityLength(1.0, LengthUnit.FEET);
-        QuantityLength b = new QuantityLength(12.0, LengthUnit.INCHES);
+        QuantityWeight kg = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
+        QuantityWeight gram = new QuantityWeight(1000.0, WeightUnit.GRAM);
 
-        if (!a.equals(b)) {
+        if (!kg.equals(gram)) {
             throw new AssertionError("Equality failed");
         }
 
@@ -23,22 +24,38 @@ public class QuantityMeasurementAppTest {
     }
 
     static void testConversion() {
-        QuantityLength a = new QuantityLength(1.0, LengthUnit.FEET);
+        QuantityWeight kg = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
 
-        if (a.convertTo(LengthUnit.INCHES).getValue() != 12.0) {
+        if (kg.convertTo(WeightUnit.GRAM).getValue() != 1000.0) {
             throw new AssertionError("Conversion failed");
+        }
 
-        System.out.println("PASS: Conversion");
+        System.out.println("PASS: Conversion KG → GRAM");
     }
 
     static void testAddition() {
-        QuantityLength a = new QuantityLength(1.0, LengthUnit.FEET);
-        QuantityLength b = new QuantityLength(12.0, LengthUnit.INCHES);
+        QuantityWeight kg = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
+        QuantityWeight gram = new QuantityWeight(500.0, WeightUnit.GRAM);
 
-        if (a.add(b).getValue() != 2.0) {
+        QuantityWeight result = kg.add(gram);
+
+        if (result.getValue() != 1.5) {
             throw new AssertionError("Addition failed");
         }
 
         System.out.println("PASS: Addition");
+    }
+
+    static void testAdditionWithTargetUnit() {
+        QuantityWeight kg = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
+        QuantityWeight gram = new QuantityWeight(500.0, WeightUnit.GRAM);
+
+        QuantityWeight result = kg.add(gram, WeightUnit.GRAM);
+
+        if (result.getValue() != 1500.0) {
+            throw new AssertionError("Target unit addition failed");
+        }
+
+        System.out.println("PASS: Addition with Target Unit");
     }
 }
