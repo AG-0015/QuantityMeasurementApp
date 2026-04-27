@@ -1,19 +1,15 @@
 public class QuantityMeasurementApp {
 
-    public static boolean compareFeet(double v, double v1) {
-    }
-
-    public static boolean compareInches(double v, double v1) {
-    }
-
     public enum LengthUnit {
         FEET(1.0),
-        INCH(1.0 / 12.0);
+        INCH(1.0 / 12.0),
+        YARD(3.0),
+        CENTIMETER(0.393701 / 12.0);
 
         private final double toFeetFactor;
 
-        LengthUnit(double factor) {
-            this.toFeetFactor = factor;
+        LengthUnit(double toFeetFactor) {
+            this.toFeetFactor = toFeetFactor;
         }
 
         public double toFeet(double value) {
@@ -37,24 +33,28 @@ public class QuantityMeasurementApp {
         public boolean equals(Object obj) {
 
             if (this == obj) return true;
+
             if (obj == null || this.getClass() != obj.getClass()) return false;
 
             Quantity other = (Quantity) obj;
 
-            double thisInFeet = this.unit.toFeet(this.value);
-            double otherInFeet = other.unit.toFeet(other.value);
+            double thisFeet = this.unit.toFeet(this.value);
+            double otherFeet = other.unit.toFeet(other.value);
 
-            return Double.compare(thisInFeet, otherInFeet) == 0;
+            return Double.compare(thisFeet, otherFeet) == 0;
         }
     }
 
     public static void main(String[] args) {
-        Quantity q1 = new Quantity(1.0, LengthUnit.FEET);
-        Quantity q2 = new Quantity(12.0, LengthUnit.INCH);
 
-        System.out.println("Equal: " + q1.equals(q2));
-    }
+        Quantity q1 = new Quantity(1.0, LengthUnit.YARD);
+        Quantity q2 = new Quantity(3.0, LengthUnit.FEET);
 
-    public class Feet {
+        System.out.println("1 Yard == 3 Feet: " + q1.equals(q2));
+
+        Quantity q3 = new Quantity(1.0, LengthUnit.CENTIMETER);
+        Quantity q4 = new Quantity(0.393701, LengthUnit.INCH);
+
+        System.out.println("1 cm == 0.393701 inch: " + q3.equals(q4));
     }
 }
