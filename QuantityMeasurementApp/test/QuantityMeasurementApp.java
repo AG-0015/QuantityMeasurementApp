@@ -1,45 +1,30 @@
-public class QuantityMeasurementAppTest {
+import java.util.HashMap;
+import java.util.Map;
+
+public class TrainConsistApp {
 
     public static void main(String[] args) {
 
-        System.out.println("=== TESTS START ===");
+        System.out.println("=== TRAIN CONSIST MANAGEMENT (UC6) ===");
 
-        testFeetToInches();
-        testYardsToFeet();
-        testInchesToYards();
-        testCentimetersToInches();
-        testZeroConversion();
+        // Step 1: Create HashMap (Bogie -> Capacity)
+        Map<String, Integer> bogieCapacityMap = new HashMap<>();
 
-        System.out.println("=== TESTS FINISHED ===");
-    }
+        // Step 2: Insert bogies with capacities
+        bogieCapacityMap.put("Sleeper", 72);
+        bogieCapacityMap.put("AC Chair", 48);
+        bogieCapacityMap.put("First Class", 36);
+        bogieCapacityMap.put("Goods - Rectangular", 10000);
+        bogieCapacityMap.put("Goods - Cylindrical", 8000);
 
-    static void testFeetToInches() {
-        double result = QuantityMeasurementApp.convert(1.0, LengthUnit.FEET, LengthUnit.INCHES);
-        assert result == 12.0 : "Feet to Inches failed";
-        System.out.println("testFeetToInches PASSED");
-    }
+        // Step 3: Display all entries using entrySet()
+        System.out.println("\n--- Bogie Capacity Details ---");
 
-    static void testYardsToFeet() {
-        double result = QuantityMeasurementApp.convert(3.0, LengthUnit.YARDS, LengthUnit.FEET);
-        assert result == 9.0 : "Yards to Feet failed";
-        System.out.println("testYardsToFeet PASSED");
-    }
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            System.out.println("Bogie: " + entry.getKey()
+                    + " | Capacity: " + entry.getValue());
+        }
 
-    static void testInchesToYards() {
-        double result = QuantityMeasurementApp.convert(36.0, LengthUnit.INCHES, LengthUnit.YARDS);
-        assert result == 1.0 : "Inches to Yards failed";
-        System.out.println("testInchesToYards PASSED");
-    }
-
-    static void testCentimetersToInches() {
-        double result = QuantityMeasurementApp.convert(1.0, LengthUnit.CENTIMETERS, LengthUnit.INCHES);
-        assert Math.abs(result - 0.3937) < 0.01 : "CM to Inches failed";
-        System.out.println("testCentimetersToInches PASSED");
-    }
-
-    static void testZeroConversion() {
-        double result = QuantityMeasurementApp.convert(0.0, LengthUnit.FEET, LengthUnit.INCHES);
-        assert result == 0.0 : "Zero conversion failed";
-        System.out.println("testZeroConversion PASSED");
+        System.out.println("\n=== END OF PROGRAM ===");
     }
 }
