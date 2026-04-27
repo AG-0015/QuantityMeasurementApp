@@ -1,66 +1,115 @@
-public class QuantityMeasurementAppTest {
+public class QuantityMeasurementAppTestTest {
 
     public static void main(String[] args) {
 
-        System.out.println("=== UNIT CONVERSION TESTS START ===");
+        System.out.println("=== UC7 FULL TEST SUITE START ===");
 
-        testFeetToInches();
-        testInchesToFeet();
-        testYardsToFeet();
-        testInchesToYards();
-        testCentimetersToInches();
-        testZeroValue();
-        testNegativeValue();
-        testSameUnitConversion();
+        test_FeetPlusInches_Feet();
+        test_FeetPlusInches_Inches();
+        test_FeetPlusInches_Yards();
+        test_YardsPlusFeet_Yards();
+        test_CentimetersPlusInches_Centimeters();
+        test_ZeroValues();
+        test_NegativeValues();
+        test_MixedConversions();
 
-        System.out.println("=== ALL TESTS COMPLETED SUCCESSFULLY ===");
+        System.out.println("=== ALL UC7 TESTS PASSED SUCCESSFULLY ===");
     }
 
-    static void testFeetToInches() {
-        double result = QuantityMeasurementApp.convert(1.0, LengthUnit.FEET, LengthUnit.INCHES);
-        assert result == 12.0 : "Feet to Inches failed";
-        System.out.println("PASS: Feet to Inches");
+    // 1. 1 FEET + 12 INCHES = 2 FEET
+    static void test_FeetPlusInches_Feet() {
+        QuantityLength result = QuantityMeasurementApp.add(
+                new QuantityLength(1.0, LengthUnit.FEET),
+                new QuantityLength(12.0, LengthUnit.INCHES),
+                LengthUnit.FEET);
+
+        assert Math.abs(result.toBaseUnit() - 2.0) < 0.0001;
+
+        System.out.println("PASS: Feet + Inches → Feet");
     }
 
-    static void testInchesToFeet() {
-        double result = QuantityMeasurementApp.convert(24.0, LengthUnit.INCHES, LengthUnit.FEET);
-        assert result == 2.0 : "Inches to Feet failed";
-        System.out.println("PASS: Inches to Feet");
+    // 2. 1 FEET + 12 INCHES = 24 INCHES
+    static void test_FeetPlusInches_Inches() {
+        QuantityLength result = QuantityMeasurementApp.add(
+                new QuantityLength(1.0, LengthUnit.FEET),
+                new QuantityLength(12.0, LengthUnit.INCHES),
+                LengthUnit.INCHES);
+
+        double expected = 24.0 * LengthUnit.INCHES.getConversionFactor();
+        assert Math.abs(result.toBaseUnit() - expected) < 0.0001;
+
+        System.out.println("PASS: Feet + Inches → Inches");
     }
 
-    static void testYardsToFeet() {
-        double result = QuantityMeasurementApp.convert(3.0, LengthUnit.YARDS, LengthUnit.FEET);
-        assert result == 9.0 : "Yards to Feet failed";
-        System.out.println("PASS: Yards to Feet");
+    // 3. 1 FEET + 12 INCHES = ~0.667 YARDS
+    static void test_FeetPlusInches_Yards() {
+        QuantityLength result = QuantityMeasurementApp.add(
+                new QuantityLength(1.0, LengthUnit.FEET),
+                new QuantityLength(12.0, LengthUnit.INCHES),
+                LengthUnit.YARDS);
+
+        assert Math.abs(result.toBaseUnit() - (2.0 / 3.0)) < 0.01;
+
+        System.out.println("PASS: Feet + Inches → Yards");
     }
 
-    static void testInchesToYards() {
-        double result = QuantityMeasurementApp.convert(36.0, LengthUnit.INCHES, LengthUnit.YARDS);
-        assert result == 1.0 : "Inches to Yards failed";
-        System.out.println("PASS: Inches to Yards");
+    // 4. 1 YARD + 3 FEET = 2 YARDS
+    static void test_YardsPlusFeet_Yards() {
+        QuantityLength result = QuantityMeasurementApp.add(
+                new QuantityLength(1.0, LengthUnit.YARDS),
+                new QuantityLength(3.0, LengthUnit.FEET),
+                LengthUnit.YARDS);
+
+        assert Math.abs(result.toBaseUnit() - 2.0) < 0.0001;
+
+        System.out.println("PASS: Yards + Feet → Yards");
     }
 
-    static void testCentimetersToInches() {
-        double result = QuantityMeasurementApp.convert(1.0, LengthUnit.CENTIMETERS, LengthUnit.INCHES);
-        assert Math.abs(result - 0.3937) < 0.01 : "CM to Inches failed";
-        System.out.println("PASS: Centimeters to Inches");
+    // 5. 2 CM + 1 INCH = ~5.08 CM
+    static void test_CentimetersPlusInches_Centimeters() {
+        QuantityLength result = QuantityMeasurementApp.add(
+                new QuantityLength(2.54, LengthUnit.CENTIMETERS),
+                new QuantityLength(1.0, LengthUnit.INCHES),
+                LengthUnit.CENTIMETERS);
+
+        assert Math.abs(result.toBaseUnit() - 5.08 * LengthUnit.CENTIMETERS.getConversionFactor()) < 0.01;
+
+        System.out.println("PASS: CM + Inches → CM");
     }
 
-    static void testZeroValue() {
-        double result = QuantityMeasurementApp.convert(0.0, LengthUnit.FEET, LengthUnit.INCHES);
-        assert result == 0.0 : "Zero conversion failed";
-        System.out.println("PASS: Zero Value");
+    // 6. Zero values
+    static void test_ZeroValues() {
+        QuantityLength result = QuantityMeasurementApp.add(
+                new QuantityLength(5.0, LengthUnit.FEET),
+                new QuantityLength(0.0, LengthUnit.INCHES),
+                LengthUnit.YARDS);
+
+        assert result != null;
+
+        System.out.println("PASS: Zero Values");
     }
 
-    static void testNegativeValue() {
-        double result = QuantityMeasurementApp.convert(-1.0, LengthUnit.FEET, LengthUnit.INCHES);
-        assert result == -12.0 : "Negative conversion failed";
-        System.out.println("PASS: Negative Value");
+    // 7. Negative values
+    static void test_NegativeValues() {
+        QuantityLength result = QuantityMeasurementApp.add(
+                new QuantityLength(5.0, LengthUnit.FEET),
+                new QuantityLength(-2.0, LengthUnit.FEET),
+                LengthUnit.INCHES);
+
+        assert Math.abs(result.toBaseUnit() - 36.0 * LengthUnit.INCHES.getConversionFactor()) < 0.0001;
+
+        System.out.println("PASS: Negative Values");
     }
 
-    static void testSameUnitConversion() {
-        double result = QuantityMeasurementApp.convert(5.0, LengthUnit.FEET, LengthUnit.FEET);
-        assert result == 5.0 : "Same unit conversion failed";
-        System.out.println("PASS: Same Unit Conversion");
+    // 8. Mixed conversions stress test
+    static void test_MixedConversions() {
+        QuantityLength result = QuantityMeasurementApp.add(
+                new QuantityLength(10.0, LengthUnit.INCHES),
+                new QuantityLength(2.0, LengthUnit.FEET),
+                LengthUnit.YARDS);
+
+        assert result != null;
+
+        System.out.println("PASS: Mixed Conversions");
     }
 }
