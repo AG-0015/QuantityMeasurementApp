@@ -1,28 +1,24 @@
-package uc15;
+package uc10;
 
-class CargoSafetyException extends RuntimeException {
-    CargoSafetyException(String msg) { super(msg); }
-}
+import org.junit.jupiter.api.Test;
+import uc15.SeatUnit;
 
-class TransportUnit {
-    String type;
+import java.util.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-    TransportUnit(String t) { type = t; }
+class UC10Test {
 
-    void assign(String cargo) {
-        try {
-            if (type.equals("Rectangular") && cargo.equals("Petroleum"))
-                throw new CargoSafetyException("Unsafe");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            System.out.println("Done");
-        }
-    }
-}
+    @Test
+    void testReduce() {
+        List<SeatUnit> list = Arrays.asList(
+                new SeatUnit(72),
+                new SeatUnit(60)
+        );
 
-public class TrainConsistManagementAppTestTestTest {
-    public static void main(String[] args) {
-        new TransportUnit("Rectangular").assign("Petroleum");
+        int total = list.stream()
+                .map(SeatUnit::getCapacity)
+                .reduce(0, Integer::sum);
+
+        assertEquals(132, total);
     }
 }
