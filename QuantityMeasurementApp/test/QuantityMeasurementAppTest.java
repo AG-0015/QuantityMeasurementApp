@@ -3,40 +3,43 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class QuantityMeasurementAppTest {
 
+    // FEET TESTS
     @Test
-    void givenSameFeetValue_whenCompared_thenReturnTrue() {
-        QuantityMeasurementApp.Feet f1 = new QuantityMeasurementApp.Feet(1.0);
-        QuantityMeasurementApp.Feet f2 = new QuantityMeasurementApp.Feet(1.0);
-
-        assertTrue(f1.equals(f2));
+    void testFeet_SameValue() {
+        assertTrue(QuantityMeasurementApp.compareFeet(1.0, 1.0));
     }
 
     @Test
-    void givenDifferentFeetValue_whenCompared_thenReturnFalse() {
-        QuantityMeasurementApp.Feet f1 = new QuantityMeasurementApp.Feet(1.0);
-        QuantityMeasurementApp.Feet f2 = new QuantityMeasurementApp.Feet(2.0);
+    void testFeet_DifferentValue() {
+        assertFalse(QuantityMeasurementApp.compareFeet(1.0, 2.0));
+    }
 
-        assertFalse(f1.equals(f2));
+    // INCH TESTS
+    @Test
+    void testInches_SameValue() {
+        assertTrue(QuantityMeasurementApp.compareInches(1.0, 1.0));
     }
 
     @Test
-    void givenNull_whenCompared_thenReturnFalse() {
-        QuantityMeasurementApp.Feet f1 = new QuantityMeasurementApp.Feet(1.0);
-
-        assertFalse(f1.equals(null));
+    void testInches_DifferentValue() {
+        assertFalse(QuantityMeasurementApp.compareInches(1.0, 2.0));
     }
 
     @Test
-    void givenSameReference_whenCompared_thenReturnTrue() {
-        QuantityMeasurementApp.Feet f1 = new QuantityMeasurementApp.Feet(1.0);
-
-        assertTrue(f1.equals(f1));
+    void testNullComparison() {
+        QuantityMeasurementApp.Feet f = new QuantityMeasurementApp.Feet(1.0);
+        assertFalse(f.equals(null));
     }
 
     @Test
-    void givenDifferentType_whenCompared_thenReturnFalse() {
-        QuantityMeasurementApp.Feet f1 = new QuantityMeasurementApp.Feet(1.0);
+    void testSameReference() {
+        QuantityMeasurementApp.Inches i = new QuantityMeasurementApp.Inches(1.0);
+        assertTrue(i.equals(i));
+    }
 
-        assertFalse(f1.equals("1.0"));
+    @Test
+    void testDifferentType() {
+        QuantityMeasurementApp.Feet f = new QuantityMeasurementApp.Feet(1.0);
+        assertFalse(f.equals("invalid"));
     }
 }
